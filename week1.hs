@@ -15,8 +15,13 @@ doubleEveryOtherFromLeft []          = []
 doubleEveryOtherFromLeft (x:[])      = [x]
 doubleEveryOtherFromLeft (x:(y:zs))  = x : y * 2 : doubleEveryOtherFromLeft(zs)
 
+-- Can also use native 'reverse' - did this just for fun
+customReverse :: [Integer] -> [Integer]
+customReverse []     = []
+customReverse (x:xs) = customReverse(xs) ++ [x]
+
 doubleEveryOther :: [Integer] -> [Integer]
-doubleEveryOther n = reverse(doubleEveryOtherFromLeft(reverse n))
+doubleEveryOther n = customReverse(doubleEveryOtherFromLeft(customReverse n))
 
 sumDigits :: [Integer] -> Integer
 sumDigits [] = 0
