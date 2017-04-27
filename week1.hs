@@ -25,7 +25,9 @@ doubleEveryOther n = customReverse(doubleEveryOtherFromLeft(customReverse n))
 
 sumDigits :: [Integer] -> Integer
 sumDigits [] = 0
-sumDigits (x:[]) = x
+sumDigits (x:[])
+  | x < 10    = x
+  | otherwise = sumDigits(toDigits(x))
 sumDigits (x:(y:zs)) = sumDigits(toDigits(x)) + sumDigits(toDigits(y)) + sumDigits(zs)
 
 validate :: Integer -> Bool
@@ -33,6 +35,27 @@ validate n  = mod
                 (sumDigits(doubleEveryOther(toDigits n)))
                 10
               == 0
+
+type Peg = String
+type Move = (Peg, Peg)
+hanoiStep1 :: Integer -> Peg -> Peg -> Peg -> [Move]
+hanoiStep2 :: Integer -> Peg -> Peg -> Peg -> [Move]
+hanoiStep3 :: Integer -> Peg -> Peg -> Peg -> [Move]
+hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
+
+hanoiStep1 1 a b c = []
+hanoiStep1 2 a b c = [(a, c)]
+hanoiStep1 3 a b c = [(a, b), (a, c), (b, c)]
+
+hanoiStep2 1 a b c = [(a, b)]
+hanoiStep2 2 a b c = []
+hanoiStep2 3 a b c = [(a, b)]
+
+hanoiStep3 1 a b c = []
+hanoiStep3 2 a b c = [(c, b)]
+hanoiStep3 3 a b c = [(c, a), (c, b), (a, c)]
+
+hanoi n a b c = (hanoiStep1 n a b c) ++ (hanoiStep2 n a b c) ++ (hanoiStep3 n a b c)
 
 main :: IO ()
 main = do
@@ -43,3 +66,4 @@ main = do
   print (sumDigits [16,7,12,5])
   print (validate 4012888888881881)
   print (validate 4012888888881882)
+  print (hanoi 3 "a" "b" "c")
