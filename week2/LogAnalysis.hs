@@ -14,7 +14,7 @@ parseMessage rawMessage
   | firstWord == "E"
       = LogMessage (Error (read secondWord)) (read thirdWord)
         (unwords (drop 3 rawMessageWords))
-  | otherwise = Unknown "This is not in the right format"
+  | otherwise = Unknown (unwords rawMessageWords)
   where
     rawMessageWords = words rawMessage
     firstWord = head rawMessageWords
