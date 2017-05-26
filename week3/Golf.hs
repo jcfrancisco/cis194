@@ -48,6 +48,11 @@ middleIsLocalMaximum (_) = False
 secondElement :: [Integer] -> Integer
 secondElement (a:b:_) = b
 
+-- First convert [1, 3, 2, 4] to [[1, 3, 2, 4], [3, 2, 4], [2, 4], [4], []] using 'tails'
+-- Then take the first three of each of those lists, so [[1, 3, 2], [3, 2, 4], [2, 4], [4], []]
+-- Then filter out the ones that don't have the middle element bigger than the other two
+--   so [[1, 3, 2]]
+-- Then just take the second element from each, so [3]
 localMaxima :: [Integer] -> [Integer]
 localMaxima n = map secondElement (filter middleIsLocalMaximum (map (take 3) (tails n)))
 
