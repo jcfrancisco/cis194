@@ -33,6 +33,7 @@ getHeight Leaf = 0
 getHeight (Node height _ _ _) = height
 
 treeWithNewLeaf :: a -> Tree a -> Tree a
+
 -- Current tree is just a leaf
 treeWithNewLeaf newItem Leaf = Node 0 Leaf newItem Leaf
 
