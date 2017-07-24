@@ -21,7 +21,8 @@ l1        +++ l2        = Append (tag l1 <> tag l2) l1 l2
 indexJ :: (Sized b, Monoid b) =>
           Int -> JoinList b a -> Maybe a
 indexJ _ Empty                          = Nothing
-indexJ _ (Single _ a)                   = Just a
+indexJ 0 (Single _ a)                   = Just a
+indexJ _ (Single _ a)                   = Nothing
 -- "indexJ 3 (Append 3 ... ...)" is out of bounds
 indexJ i (Append m _ _)   | Size i >= size m
   = Nothing
