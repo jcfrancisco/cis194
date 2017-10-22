@@ -66,3 +66,8 @@ helper f (Just (a, s)) = Just (f a, s)
 
 instance Functor Parser where
   fmap f (Parser p) = Parser (\s -> helper f (p s))
+
+instance Applicative Parser where
+  pure a = Parser (\s -> Just(a, s))
+  --Parser p1 <*> Parser p2 = ???
+
