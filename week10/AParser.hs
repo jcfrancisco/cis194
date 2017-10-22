@@ -67,7 +67,11 @@ helper f (Just (a, s)) = Just (f a, s)
 instance Functor Parser where
   fmap f (Parser p) = Parser (\s -> helper f (p s))
 
+appHelper :: Maybe ((a -> b), String) -> Parser a -> Maybe (b, String)
+appHelper Nothing _ = Nothing
+appHelper (Just (p1f, p1s)) p2 = runParser (fmap p1f p2) p1s
+
 instance Applicative Parser where
   pure a = Parser (\s -> Just(a, s))
-  --Parser p1 <*> Parser p2 = ???
+  Parser p1 <*> p2 = Parser (\s -> appHelper (p1 s) p2)
 
