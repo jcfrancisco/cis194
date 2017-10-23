@@ -57,12 +57,11 @@ posInt = Parser f
 ------------------------------------------------------------
 -- Your code goes below here
 ------------------------------------------------------------
--- first :: (a -> b) -> (a, c) -> (b, c)
--- first f (a, c) = (f a, c)
+first :: (a -> b) -> (a, c) -> (b, c)
+first f (a, c) = (f a, c)
 
 helper :: (a -> b) -> Maybe (a, String) -> Maybe (b, String)
-helper f Nothing = Nothing
-helper f (Just (a, s)) = Just (f a, s)
+helper f m = fmap (first f) m
 
 instance Functor Parser where
   fmap f (Parser p) = Parser (\s -> helper f (p s))
@@ -74,4 +73,3 @@ appHelper (Just (p1f, p1s)) p2 = runParser (fmap p1f p2) p1s
 instance Applicative Parser where
   pure a = Parser (\s -> Just(a, s))
   Parser p1 <*> p2 = Parser (\s -> appHelper (p1 s) p2)
-
